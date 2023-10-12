@@ -12,4 +12,4 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     with conn:
         print(f"Connected by {addr}")
         while True:
-           conn.sendall(bytes(input("Command:"), 'utf-8'))
+           conn.sendall(bytes(input("Command:"), 'utf-8')+"\r")
