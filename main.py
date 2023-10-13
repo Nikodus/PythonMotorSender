@@ -4,7 +4,7 @@ import sys
 import GUI_events
 
 
-conn = Conn()
+conn = Conn("192.168.243.86",65432)
 
 pygame.init()
 size = width, height = 600, 480
@@ -39,7 +39,7 @@ while True:
                 if GUI_events.rectangle_click(motor_off_button):
                     conn.send("MOTOR_OFF")
                 if GUI_events.rectangle_click(set_button):
-                    conn.send("MOTOR_DUTY_"+' '.join(text_input))
+                    conn.send("MOTOR_DUTY_"+''.join(text_input))
                     text_input.clear()
 
         if event.type == pygame.KEYDOWN:
@@ -50,9 +50,8 @@ while True:
             if text == "\x08":
                 text_input.pop()
             if text == "\r":
+                conn.send("MOTOR_DUTY_"+''.join(text_input))
                 text_input.clear()
-                if conn.isConnected():
-                    conn.send("MOTOR_DUTY_"+' '.join(text_input))
 
 
 
@@ -67,10 +66,10 @@ while True:
     pygame.draw.rect(window, (150, 150, 150), set_button)
     pygame.draw.rect(window, (200, 200, 200), text_field)
 
-    text_for_input = text_font.render(' '.join(text_input),True,(0,0,0))
+    text_for_input = text_font.render(''.join(text_input),True,(0,0,0))
     text_motor_on_info = small_text_font.render("Motor On",True,(255,255,255))
     text_motor_off_info = small_text_font.render("Motor OFF", True, (255, 255, 255))
-    text_connection_on = text_font.render("Connection ON", True, (255, 255, 255))
+    text_connection_on = small_text_font.render("Connection ON", True, (255, 255, 255))
     text_connection_off = small_text_font.render("Connection OFF", True, (255, 255, 255))
     text_send = small_text_font.render("Send", True, (255, 255, 255))
 

@@ -3,7 +3,7 @@ from threading import Thread
 
 class Connection:
 
-    __active_connection = None
+    conn = None
 
 
     def __init__(self, ip:str = "127.0.0.1", port:int = 7777 ):
@@ -11,28 +11,29 @@ class Connection:
         self.port = port
 
     def connect(self):
-        def threaded_connect():
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.bind((self.ip, self.port))
-                s.listen()
-                conn, addr = s.accept()
-                with conn:
-                    print(f"Connected with {addr}")
-                    Connection.active_connection = conn
-
-        connection_thread = Thread(target=threaded_connect,daemon=True)
-        connection_thread.start()
+        if not self.isConnected():
+            connection_thread = Thread(target=self.__threaded_connect,daemon=True)
+            connection_thread.start()
 
 
     def send(self, msg:str = ""):
-        if self.__active_connection != None:
-            self.__active_connection.sendall(bytes(msg+"\r", 'utf-8'))
+        if self.conn != None:
+            self.conn.sendall(bytes(msg+"\r", 'utf-8'))
         else:
             print("Send failed!")
 
 
+    def __threaded_connect(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((self.ip, self.port))
+            s.listen()
+            self.conn, addr = s.accept()
+            with self.conn:
+                print(f"Connected with {addr}")
+                while True:
+                    None
 
     def isConnected(self):
-        if self.__active_connection != None:
+        if self.conn != None:
             return True
         return False
