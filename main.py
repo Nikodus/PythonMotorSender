@@ -67,7 +67,7 @@ while True:
     pygame.draw.rect(window, (150, 150, 150), set_button)
     pygame.draw.rect(window, (200, 200, 200), text_field)
 
-    text_for_input = text_font.render(' '.join(text_input),True,(255,255,255))
+    text_for_input = text_font.render(' '.join(text_input),True,(0,0,0))
     text_motor_on_info = small_text_font.render("Motor On",True,(255,255,255))
     text_motor_off_info = small_text_font.render("Motor OFF", True, (255, 255, 255))
     text_connection_on = text_font.render("Connection ON", True, (255, 255, 255))
