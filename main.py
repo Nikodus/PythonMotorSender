@@ -4,7 +4,7 @@ import sys
 import GUI_events
 
 
-conn = Conn("192.168.243.86",65432)
+conn = Conn("192.168.243.68",65432)
 
 pygame.init()
 size = width, height = 600, 480
@@ -48,7 +48,10 @@ while True:
                 if len(text_input) <5:
                     text_input.append(text)
             if text == "\x08":
-                text_input.pop()
+                try:
+                    text_input.pop()
+                except:
+                    None
             if text == "\r":
                 conn.send("MOTOR_DUTY_"+''.join(text_input))
                 text_input.clear()
