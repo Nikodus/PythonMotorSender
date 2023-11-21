@@ -1,0 +1,12 @@
+from pygame import font
+gray = (150, 150, 150)
+light_gray = (200, 200, 200)
+white = (255, 255, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+green = (0, 255, 0)
+background = (40,40,40)
+font.init()
+text_font = font.Font(None, 64)
+medium_text_font = font.Font(None, 32)
+small_text_font = font.Font(None, 24)
