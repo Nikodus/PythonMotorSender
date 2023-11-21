@@ -37,7 +37,10 @@ class Control_Page:
                     if GUI_events.rectangle_click(switch_to_main_page):
                         active_page = 0
                     if GUI_events.rectangle_click(connection_button):
-                        conn.connect()
+                        if conn.isConnected():
+                            conn.disconnect()
+                        else:
+                            conn.connect()
                     if GUI_events.rectangle_click(forward_button):
                         conn.setMotorindex(0)
                         conn.send("MOTOR_DUTY_1000")

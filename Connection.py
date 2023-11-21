@@ -24,24 +24,27 @@ class Connection:
             print("Send failed!")
 
     def __threaded_connect(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((self.__ip, self.__port))
-            s.listen()
-            self.__conn, addr = s.accept()
-            with self.__conn:
-                print(f"Connected with {addr}")
-                while True:
-                    try:
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind((self.__ip, self.__port))
+                s.listen()
+                self.__conn, addr = s.accept()
+                with self.__conn:
+                    print(f"Connected with {addr}")
+                    while True:
                         self.__conn.send(bytes("KA" + "\r", 'utf-8'))
-                        time.sleep(0.1)
-                    except:
-                        self.__conn = None
-                        return
+                        time.sleep(0.01)
+        except:
+            self.__conn = None
+            return
 
     def isConnected(self):
         if self.__conn != None:
             return True
         return False
+
+    def disconnect(self):
+        self.__conn = None
 
     def setMotorindex(self, motor: int):
         if motor >= 1:

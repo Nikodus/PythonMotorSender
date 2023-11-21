@@ -40,7 +40,10 @@ class Main_Page:
                 left, middle, right = pygame.mouse.get_pressed()
                 if left:
                     if GUI_events.rectangle_click(connection_button):
-                        conn.connect()
+                        if conn.isConnected():
+                            conn.disconnect()
+                        else:
+                            conn.connect()
                     if GUI_events.rectangle_click(motor_on_button):
                         conn.send("MOTOR_ON")
                     if GUI_events.rectangle_click(motor_off_button):
